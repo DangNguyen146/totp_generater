@@ -26,6 +26,8 @@ export default class Totp extends Component {
     });
   }
   render() {
+    if (this.state.code == "123") this.setState({ code: "Waiting loading" });
+
     let secret = this.state.secret;
     var totp = new jsOTP.totp();
     var code = totp.getOtp(this.state.secret);
@@ -37,7 +39,7 @@ export default class Totp extends Component {
       let countDown = 30 - (epoch % 30);
       this.setState({ countDown: countDown });
       if (epoch % 30 == 0) this.setState({ code: totp.getOtp(secret) });
-    }, 1000)
+    }, 1000);
     return (
       <>
         <Text>Secret: {this.state.secret}</Text>

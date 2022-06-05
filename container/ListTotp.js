@@ -11,31 +11,39 @@ export default class ListTotp extends Component {
     this.state = {
       object: [],
       data: [],
-      code: "123",
-      secret: "JBSWY3DPEHPK3PXP",
+      code: "",
+      data: "",
       name: "",
       countDown: 30,
     };
   }
   async componentWillMount() {
     let data = await AsyncStorage.getItem("mydata");
+
     let editDate = JSON.parse(data).split("/")[3].split("?");
     this.setState({ data: editDate });
   }
   async componentDidMount() {
     let data = await AsyncStorage.getItem("mydata");
+
     let editDate = JSON.parse(data).split("/")[3].split("?");
     this.setState({ data: editDate });
   }
   async componentWillReceiveProps() {
     let data = await AsyncStorage.getItem("mydata");
+
     let editDate = JSON.parse(data).split("/")[3].split("?");
     this.setState({ data: editDate });
   }
   render() {
+    let temp = this.state.data[1];
+    let data;
+    if (temp) {
+      data = temp.split("&")[0];
+    } else data = temp;
     return (
       <View style={styles.container}>
-        <Totp name={this.state.data[0]} secret={this.state.data[1]} />
+        <Totp name={this.state.data[0]} secret={data} />
 
         <TouchableOpacity
           onPress={() => {
@@ -84,6 +92,5 @@ const styles = StyleSheet.create({
     resizeMode: "contain",
     width: 50,
     height: 50,
-    //backgroundColor:'black'
   },
 });
